@@ -19,7 +19,7 @@
 
 ## II. Sơ đồ kiến trúc
 
-![Sơ đồ kiến trúc](path/to/so-do-kien-truc.png)
+![Sơ đồ kiến trúc](docs/diagram.png)
 
 * **AWS Region (us-east-1)**
 * **VPC (10.0.0.0/16)**
