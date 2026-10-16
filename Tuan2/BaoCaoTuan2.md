@@ -24,7 +24,8 @@
   * `Lab-VPC-subnet-private-db1-us-east-1a` (`10.0.11.0/24`)
   * `Lab-VPC-subnet-private-db2-us-east-1b` (`10.0.21.0/24`)
 
-![Ảnh 1.1: DB Subnet Group](path/to/image1_1.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/1ae2be79-a116-437d-a532-cd551b3afe7a" />
+
 *Ảnh 1.1: DB Subnet Group*
 
 > **Mục đích:** Báo cho dịch vụ AWS RDS biết cơ sở dữ liệu được phép đặt tại những Subnet nào (ở đây là 2 DB Subnet Private đã tạo ở cuối Tuần 1) để đảm bảo tính dự phòng (High Availability) trên 2 Availability Zones.
@@ -40,18 +41,22 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
 * **Instance class:** `db.t3.micro` (2 vCPU, 1 GB RAM)
 * **Storage:** 20 GiB (General Purpose SSD gp2), có kích hoạt tính năng mã hóa lưu trữ bằng AWS KMS.
 
-![Ảnh 2.1: RDS MySQL Summary](path/to/image2_1.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/d82e67ab-ab77-4193-bbc4-f1100deb33ae" />
+
 *Ảnh 2.1: RDS MySQL Summary*
 
-![Ảnh 2.2: RDS MySQL Security Group Rules](path/to/image2_2.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/79874d32-7965-48f4-b56d-96f6f697d3cf" />
+
 *Ảnh 2.2: Cấu hình quy tắc an ninh (Security Group Rules) và trạng thái nhân bản của RDS MySQL*
 
-![Ảnh 2.3: RDS MySQL Endpoints](path/to/image2_3.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/d6802efd-d60d-476c-8447-bf04b72826a4" />
+
 *Ảnh 2.3: Cấu hình mạng, điểm cuối (Endpoint) và tính năng cô lập an ninh của RDS MySQL*
 
 > **Đặc tả mạng & an ninh:** Cụm RDS được đặt hoàn toàn trong dải mạng nội bộ (Private), thiết lập `Publicly Accessible = No`, tuyệt đối không mở IP Public để chặn đứng mọi cuộc tấn công từ Internet.
 
-![Ảnh 2.4: RDS MySQL Configuration KMS](path/to/image2_4.png)
+<img width="940" height="493" alt="image" src="https://github.com/user-attachments/assets/8fd88355-0d13-4100-a505-ed135b78bf29" />
+
 *Ảnh 2.4: Cấu hình phần cứng và xác thực tính năng mã hóa lưu trữ bằng AWS KMS trên RDS MySQL*
 
 > **Đánh giá:** Đảm bảo bảo vệ dữ liệu chống lại các nguy cơ truy cập vật lý trái phép vào đĩa hoặc rò rỉ dữ liệu từ các bản sao lưu (Backup/Snapshot), đáp ứng tiêu chuẩn phòng thủ dữ liệu tĩnh (*Data-at-Rest Encryption*) theo mô hình STRIDE.
@@ -64,7 +69,8 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
 * **Mô tả:** Database credentials for multi-layer security web app.
 * **Mã hóa:** Được bảo vệ an toàn bằng AWS KMS key mặc định (`aws/secretsmanager`).
 
-![Ảnh 3.1: AWS Secrets Manager](path/to/image3_1.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/536795af-481e-4a34-a378-18766c2597f9" />
+
 *Ảnh 3.1: Khởi tạo Secret lưu trữ thông tin xác thực cơ sở dữ liệu trên AWS Secrets Manager*
 
 > **Mục tiêu an ninh:** Toàn bộ thông tin tài khoản quản trị `adminapp` và mật khẩu truy cập `sec-app-db` được đóng gói an toàn và mã hóa với AWS KMS. Triển khai theo chuẩn bảo mật không lưu mật khẩu tĩnh (*Zero Hardcoded Secrets*) trên máy chủ Web/App.
@@ -77,10 +83,12 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
 * **VPC:** Gắn vào `Lab-VPC` (`vpc-05ec942315a1ba4f3`), thuộc Subnet `Lab-VPC-subnet-public1-us-east-1a`.
 * **IAM Role:** Gán `LabRole` (qua `LabInstanceProfile`) nhằm cung cấp quyền hạn tự động tương tác với AWS Secrets Manager và KMS theo cơ chế AWS STS Token mà không cần cấu hình Access Key tĩnh trong mã nguồn.
 
-![Ảnh 4.1: Chi tiết EC2 Web Server](path/to/image4_1.png)
+<img width="817" height="434" alt="image" src="https://github.com/user-attachments/assets/15dd99f4-972e-46e9-9edd-e1da0d5ed1f1" />
+
 *Ảnh 4.1: Thông tin cấu hình chi tiết máy ảo Web Server*
 
-![Ảnh 4.2: Phân tầng an ninh Security Group của EC2](path/to/image4_2.png)
+<img width="811" height="431" alt="image" src="https://github.com/user-attachments/assets/12143aef-367e-46ca-8205-c156e1e4334d" />
+
 *Ảnh 4.2: Phân tầng an ninh Security Group của EC2*
 
 * **Cổng dịch vụ Web (HTTP 80 & Port 5000):** Áp dụng nguyên tắc quyền tối thiểu (*Least Privilege*). Nguồn truy cập không mở ra toàn Internet (`0.0.0.0/0`), mà được trỏ cố định từ `Lab-ALB-SG` (`sg-0571c15262c19402e`). Ngăn chặn kẻ tấn công bypass Load Balancer để gửi request trực tiếp đến ứng dụng.
@@ -97,10 +105,12 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
   * Máy ảo lấy được động các tham số: `username` (`adminapp`), `engine` (`mysql`), và địa chỉ `host` (`sec-app-db...`).
 * **Kết quả kiểm thử kết nối:** Ứng dụng mở thành công luồng TCP qua cổng 3306 tới máy chủ cơ sở dữ liệu `sec-app-db` thông qua `Lab-RDS-SG`, xác nhận thông tuyến nội bộ giữa tầng Web App và tầng Database.
 
-![Ảnh 5.1: Minh chứng thực nghiệm nạp Secret & kết nối DB](path/to/image5_1.png)
+<img width="740" height="393" alt="image" src="https://github.com/user-attachments/assets/97653a16-0d53-4328-848d-544d4a46aae9" />
+
 *Ảnh 5.1: Minh chứng thực nghiệm nạp Secret & kết nối DB*
 
-![Ảnh 5.2: Mã nguồn kiểm thử kết nối](path/to/image5_2.png)
+<img width="740" height="389" alt="image" src="https://github.com/user-attachments/assets/062fcb41-fb17-46dc-b5b6-6df2111ef8b9" />
+
 *Ảnh 5.2: Mã nguồn kiểm thử kết nối (`test_secret_rds.py`) tuân thủ chuẩn an toàn thông tin Zero Hardcoded Secrets*
 
 > **Đánh giá:** Toàn bộ quá trình định danh và lấy mật khẩu truy cập database được ủy quyền cho dịch vụ AWS Secrets Manager thông qua IAM Instance Profile (`LabRole`). Mã nguồn tuyệt đối không lưu trữ tài khoản, mật khẩu hoặc AWS Access Key dạng văn bản rõ (plain-text), loại bỏ hoàn toàn nguy cơ rò rỉ thông tin đăng nhập khi chia sẻ mã nguồn hoặc bị tấn công đọc trộm file.
@@ -112,10 +122,12 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
 * **Application Load Balancer:** `Lab-ALB-Public` (Scheme: Internet-facing, phân bổ đa vùng sẵn sàng Multi-AZ trên các Public Subnet).
 * **Target Group:** `TG-EC2-App` (Port: 80, Protocol: HTTP, Target Type: Instance).
 
-![Ảnh 6.1: Cấu hình Application Load Balancer Multi-AZ](path/to/image6_1.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/8d6a98b6-0807-4547-a5f8-1e7eb49a41c2" />
+
 *Ảnh 6.1: Cấu hình Application Load Balancer (Lab-ALB-Public) đa vùng sẵn sàng (Multi-AZ)*
 
-![Ảnh 6.2: Ánh xạ Target Group TG-EC2-App](path/to/image6_2.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/5a92b4ed-7a9d-4f6a-9302-4f090b4623dc" />
+
 *Ảnh 6.2: Ánh xạ Target Group TG-EC2-App*
 
 * ALB được đặt tại 2 Public Subnet đóng vai trò Reverse Proxy tiếp nhận lưu lượng từ người dùng, ngăn cách hoàn toàn truy cập trực tiếp từ Internet vào máy chủ ứng dụng.
@@ -127,7 +139,8 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
 
 ### 1. Kiểm thử tích hợp hệ thống & Kiểm thử định tuyến bộ cân bằng tải
 
-![Ảnh 7.1: Giao diện ứng dụng qua DNS của ALB](path/to/image7_1.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/9f3c0737-eb72-49f9-809b-c85bff510add" />
+
 *Ảnh 7.1: Kiểm thử tích hợp (Integration Testing) – Truy cập ứng dụng web thành công qua DNS Name của Application Load Balancer (Lab-ALB-Public)*
 
 * **Mục tiêu kiểm thử:** Xác thực luồng định tuyến lưu lượng từ người dùng bên ngoài Internet qua bộ cân bằng tải tới máy chủ ứng dụng và khả năng truy vấn cơ sở dữ liệu nội bộ.
@@ -155,7 +168,8 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
 
 #### a. Kiểm thử cách ly máy chủ EC2 (EC2 Security Isolation)
 
-![Ảnh 8.1: Truy cập trực tiếp qua Public IP của EC2 thất bại](path/to/image8_1.png)
+<img width="940" height="499" alt="image" src="https://github.com/user-attachments/assets/a0375334-0c41-4bda-81e3-6d713f97e0b3" />
+
 *Ảnh 8.1: Kiểm thử cách ly máy chủ (EC2 Security Isolation) – Truy cập trực tiếp qua Public IP của EC2 bị chặn hoàn toàn*
 
 * Do thực hiện chính sách tối ưu hóa chi phí (Stop instance khi không sử dụng), địa chỉ Public IPv4 của máy chủ EC2 là địa chỉ động (Dynamic IP) và được AWS tái cấp phát qua các phiên làm việc, trong khi định danh máy chủ (`i-01e954dcae9fe59bb`) và địa chỉ Private IP (`10.0.1.133`) được bảo toàn cố định.
@@ -164,19 +178,8 @@ Tổng quan cấu hình và trạng thái hoạt động của cơ sở dữ li�
 
 #### b. Kiểm thử cách ly cơ sở dữ liệu (Database Security Isolation)
 
-```cmd
-C:\Users\ngxua> curl -v telnet://sec-app-db.ciactrflur9l.us-east-1.rds.amazonaws.com:3306
-* Host sec-app-db.ciactrflur9l.us-east-1.rds.amazonaws.com:3306 was resolved.
-* IPv6: (none)
-* IPv4: 10.0.11.211
-*   Trying 10.0.11.211:3306...
-* connect to 10.0.11.211 port 3306 from 0.0.0.0 port 64125 failed: Timed out
-* Failed to connect to sec-app-db.ciactrflur9l.us-east-1.rds.amazonaws.com:3306 after 21102 ms: Could not connect to server
-* Closing connection 0
-curl: (28) Failed to connect to sec-app-db.ciactrflur9l.us-east-1.rds.amazonaws.com:3306 after 21102 ms: Could not connect to server
-```
+<img width="940" height="483" alt="image" src="https://github.com/user-attachments/assets/02d6773e-7122-45bb-aad0-abf808bd7069" />
 
-![Ảnh 8.2: Kết nối từ Internet tới cổng 3306 của RDS thất bại](path/to/image8_2.png)
 *Ảnh 8.2: Kiểm thử cách ly cơ sở dữ liệu (Database Security Isolation) – Kết nối từ Internet tới cổng 3306 của RDS Endpoint thất bại*
 
 * Cơ sở dữ liệu được cấu hình `Publicly Accessible = No` và đặt trong `lab-rds-subnet-group` thuộc các Private DB Subnets không có route ra Internet Gateway.
