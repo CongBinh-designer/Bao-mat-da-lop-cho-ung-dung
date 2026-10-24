@@ -291,6 +291,12 @@ Resources:
 * **Link commit tuần 3:**
 *  https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/commit/8e7e04951ca331192f317c3631d753f37fd5a88f
 *  https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/commit/69c54ea598504e301bd85282f10006ad7d54c3ff
+*  https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/commit/ae4d2ae67d30c8c7e93bae879cddc87ac9c2862e
+*  **Link github blob cho các file chính:**
+*  https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/Tuan3/BaoCaoTuan3.md
+*  https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/WORKLOG.md
+*  https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/src/test_waf_security.ps1
+*  https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/Tuan3/waf-monitoring-template.yaml
 
 ---
 
