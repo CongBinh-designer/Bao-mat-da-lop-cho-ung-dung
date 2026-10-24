@@ -105,3 +105,53 @@
 - Thực thi kịch bản kiểm thử trực tiếp trên máy chủ EC2, xác thực việc đọc Secret và mở luồng TCP thành công tới cổng 3306 của RDS.
 
 - Thực hiện kiểm thử cách ly máy chủ Web EC2 bằng cách truy cập trực tiếp qua Public IP từ trình duyệt bên ngoài, xác nhận kết nối bị chặn hoàn toàn (`ERR_CONNECTION_TIMED_OUT`).
+
+---
+
+### 1. BẢNG TỔNG HỢP PHÂN CÔNG VÀ GIỜ LÀM VIỆC TUẦN 3
+
+| Sinh viên | MSSV | Vai trò chính | Thời gian |
+| :--- | :---: | :--- | :---: |
+| **Nguyễn Xuân Nhật** | 24110293 | Khởi tạo WAFv2 Web ACL & liên kết ALB, Thiết lập SNS Topic & xác thực Email, Thực nghiệm kịch bản tấn công (SQLi, XSS, HTTP Flood) & phân tích WAF Sampled Requests | **9.0 giờ** |
+| **Nguyễn Công Bình** | 24110168 | Kích hoạt & phân tích mối đe dọa GuardDuty, Cấu hình WAF Managed Rules & Custom Rate-Limit, Thiết lập CloudWatch Alarms, Xây dựng mã nguồn IaC CloudFormation | **9.0 giờ** |
+
+---
+
+### 2. CHI TIẾT CÔNG VIỆC TỪNG SINH VIÊN
+
+#### Sinh viên 1: Nguyễn Xuân Nhật (MSSV: 24110293)
+- Khởi tạo Web ACL `Lab-ALB-WAF` (Scope: Regional, us-east-1) trên dịch vụ AWS WAFv2, thiết lập Default Action là `Allow` để duy trì lưu lượng truy cập thông thường.
+
+- Thực hiện liên kết (Web ACL Association) trực tiếp `Lab-ALB-WAF` với Application Load Balancer `Lab-ALB-Public` đóng vai trò chốt chặn bảo vệ Tầng 7 tại biên mạng.
+
+- Khởi tạo kênh thông báo Amazon SNS Topic `Lab-Security-Alerts-Topic`, tạo Subscription dạng Email và xác thực thành công trạng thái `Confirmed` trên hộp thư quản trị viên (`24110293@student.hcmute.edu.vn`).
+
+- Thực nghiệm kiểm thử bảo mật Test Case 1: Gửi chuỗi khai thác logic SQL Injection (`?id=1' OR 1=1--`) qua URL Query String tới DNS của ALB, xác nhận WAF chặn đứng và trả về phản hồi `HTTP/1.1 403 Forbidden`.
+
+- Thực nghiệm kiểm thử bảo mật Test Case 2: Gửi payload chứa mã độc JavaScript `<script>alert('XSS')</script>`, xác nhận bộ quy tắc `AWSManagedRulesCommonRuleSet` phát hiện và vô hiệu hóa trước khi chạm tới máy chủ web.
+
+- Thực nghiệm kiểm thử bảo mật Test Case 3: Gửi dồn dập 130 requests liên tiếp nhằm kích hoạt quy tắc `RateLimit-100`, xác nhận hệ thống WAF đưa IP vào danh sách cách ly tạm thời và trả về phản hồi `403 Forbidden` trực tiếp từ tầng biên (`Server: awselb/2.0`).
+
+- Trích xuất và phân tích nhật ký truy cập WAF Sampled Requests trước và sau khi kiểm thử, lưu vết chi tiết Client IP, Country, Request URI, HTTP Method, vi phạm Rule ID và trạng thái `BLOCK`.
+
+---
+
+#### Sinh viên 2: Nguyễn Công Bình (MSSV: 24110168)
+
+- Kích hoạt dịch vụ giám sát an ninh thông minh Amazon GuardDuty tại Region `us-east-1`, tạo mẫu sự kiện (Sample Findings) để kiểm tra năng lực phát hiện mối đe dọa.
+
+- Phân tích chi tiết cảnh báo an ninh tầng cơ sở dữ liệu `DefenseImpairment:RDS/ModifyAuthenticationProcess`, đánh giá rủi ro can thiệp làm suy yếu an ninh (`RDSIAMAuthDisabled`) thông qua luồng sự kiện CloudTrail.
+
+- Cấu hình các bộ quy tắc chuẩn của AWS trên Web ACL gồm `AWSManagedRulesCommonRuleSet` (Priority 0) và `AWSManagedRulesSQLiRuleSet` (Priority 1) nhằm tự động phát hiện các lỗ hổng OWASP Top 10.
+
+- Thiết lập Custom Rule `RateLimit-100` (Priority 2, Rate-based statement) với ngưỡng giới hạn 100 requests trong cửa sổ trượt 5 phút tính theo địa chỉ IP nguồn, hành động thực thi `Block`.
+
+- Cấu hình CloudWatch Alarm `Lab-Alarm-WAF-BlockedRequests-High` theo dõi Metric `BlockedRequests` (Namespace `AWS/WAFV2`), kích hoạt trạng thái `In alarm` khi số lượng request bị chặn $\ge 5$ trong 5 phút và tự động gửi cảnh báo qua SNS Topic.
+
+- Cấu hình CloudWatch Alarm `Lab-Alarm-EC2-HighCPUUtilization` theo dõi Metric `CPUUtilization` (Namespace `AWS/EC2`), đặt ngưỡng cảnh báo khi tải CPU máy chủ vượt quá 70% liên tục trong 5 phút.
+
+- Đóng gói mã nguồn kiểm thử tự động hóa, cấu hình bản mẫu Infrastructure as Code (AWS CloudFormation Template) hoàn chỉnh triển khai Web ACL, SNS Topic và CloudWatch Alarms.
+
+- Đồng bộ mã nguồn, tài liệu hướng dẫn và kịch bản thực nghiệm lên kho lưu trữ GitHub của nhóm.
+
+---
