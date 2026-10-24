@@ -18,5 +18,5 @@
 ## Tiến độ thực hiện
 - [x] **Tuần 1:** Thiết kế kiến trúc 3 tầng, mô hình STRIDE, khởi tạo VPC, 6 Subnets, S3 Bucket, Security Groups.
 - [x] **Tuần 2:** Khởi tạo RDS MySQL, AWS Secrets Manager, EC2 Web App (`LabInstanceProfile`), Application Load Balancer và kiểm thử an ninh cách ly mạng.
-- [ ] **Tuần 3:** Cấu hình AWS WAF trên ALB, kích hoạt Amazon GuardDuty và thiết lập giám sát CloudWatch.
+- [x] **Tuần 3:** Cấu hình AWS WAF trên ALB, kích hoạt Amazon GuardDuty và thiết lập giám sát CloudWatch.
 - [ ] **Tuần 4:** Tối ưu hóa chi phí, tổng kết báo cáo, quay video demo hoàn chỉnh.
