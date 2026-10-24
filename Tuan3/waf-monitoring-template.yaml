@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Week 3 - AWS WAFv2 WebACL and CloudWatch Monitoring Infrastructure as Code'
+
+Resources:
+  # 1. AWS WAFv2 Regional Web ACL
+  LabWebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: Lab-ALB-WAF
+      Scope: REGIONAL
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: Lab-ALB-WAF
+      Rules:
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 0
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWS-AWSManagedRulesCommonRuleSet
+        - Name: AWS-AWSManagedRulesSQLiRuleSet
+          Priority: 1
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesSQLiRuleSet
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWS-AWSManagedRulesSQLiRuleSet
+        - Name: RateLimit-100
+          Priority: 2
+          Action:
+            Block: {}
+          Statement:
+            RateBasedStatement:
+              Limit: 100
+              AggregateKeyType: IP
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RateLimit-100
+
+  # 2. CloudWatch Alarm for WAF Blocked Requests
+  CloudWatchWAFBlockedAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: Lab-Alarm-WAF-BlockedRequests-High
+      MetricName: BlockedRequests
+      Namespace: AWS/WAFV2
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmActions:
+        - !Ref SecurityNotificationTopic
+
+  # 3. CloudWatch Alarm for EC2 CPU Utilization
+  CloudWatchEC2CPUAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: Lab-Alarm-EC2-HighCPUUtilization
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 70
+      ComparisonOperator: GreaterThanOrEqualToThreshold
