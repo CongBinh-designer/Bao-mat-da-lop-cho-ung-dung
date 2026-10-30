@@ -129,5 +129,18 @@ Sau khi hệ thống WAF ghi nhận lưu lượng tấn công vượt ngưỡng 
 
 ## V. Link GitHub và Video Demo
 
-Link github: https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ungdung  
-Link video: https://youtu.be/RNFod-LNGfU
+* Link github:
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ungdung
+* Link commit:
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/commit/48d4bbae80f69ed5b271f98e73fafaa7c705faa1
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/commit/4d68b9caa6a9a8e3f4427610fd160d40d41e32f2
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/commit/aa0fec2370d7c2b2c5c8d2769d2f3674eaf5b142
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/commit/69c54ea598504e301bd85282f10006ad7d54c3ff
+* Link blob:
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/src/test_waf_security.ps1
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/Tuan4/BaoCaoTuan4.md
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/WORKLOG.md
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/Tuan4/DEMO.md
+- https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ung-dung/blob/main/docs/diagram.png
+* Link video:
+- https://youtu.be/RNFod-LNGfU
