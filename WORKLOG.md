@@ -155,3 +155,55 @@
 - Đồng bộ mã nguồn, tài liệu hướng dẫn và kịch bản thực nghiệm lên kho lưu trữ GitHub của nhóm.
 
 ---
+
+## TUẦN 4: KIỂM THỬ TỔNG THỂ, TỐI ƯU CHI PHÍ, DỌN DẸP TÀI NGUYÊN & HOÀN THIỆN DỰ ÁN
+
+* **Thời gian thực hiện:** 26/10/2026 – 01/11/2026
+* **Mục tiêu tuần 4:**
+  1. Xây dựng kịch bản và thực thi kiểm thử tổng thể toàn bộ hệ thống phòng thủ đa lớp (Defense-in-Depth) theo mô hình STRIDE.
+  2. Xác thực hoạt động của ứng dụng web, định tuyến qua ALB, kết nối an toàn tới RDS MySQL qua IAM Role & Secrets Manager.
+  3. Kiểm thử tính năng an ninh: chặn truy cập trực tiếp qua Public IP của EC2, WAF chặn tấn công SQL Injection và XSS, kích hoạt Rate Limit và luồng cảnh báo tự động từ CloudWatch Alarm qua SNS Email.
+  4. Đánh giá và đối soát chi phí tiêu thụ tài nguyên trên AWS Academy Learner Lab (Vocareum).
+  5. Xây dựng và thực thi quy trình dọn dẹp tài nguyên (Resource Teardown) chuẩn 6 giai đoạn nhằm triệt tiêu hoàn toàn chi phí phát sinh ngầm.
+  6. Chuẩn hóa mã nguồn, hợp nhất các file CloudFormation (IaC), cập nhật kho lưu trữ GitHub, quay dựng video demo hoàn chỉnh và hoàn thành báo cáo dự án.
+
+---
+
+### 1. BẢNG TỔNG HỢP PHÂN CÔNG VÀ GIỜ LÀM VIỆC TUẦN 4
+
+| Sinh viên | MSSV | Vai trò chính | Thời gian |
+| :--- | :---: | :--- | :---: |
+| **Nguyễn Xuân Nhật** | 24110293 | Viết kịch bản & kiểm thử tổng thể dự án, Đánh giá chi phí & dọn dẹp tài nguyên hệ thống, Viết báo cáo dự án | **8.0 giờ** |
+| **Nguyễn Công Bình** | 24110168 | Quay & biên tập video demo toàn bộ dự án, Chuẩn hóa mã nguồn & hợp nhất CloudFormation, Cập nhật GitHub & tổng kết Worklog 4 tuần | **8.0 giờ** |
+
+---
+
+### 2. CHI TIẾT CÔNG VIỆC TỪNG SINH VIÊN
+
+#### Sinh viên 1: Nguyễn Xuân Nhật (MSSV: 24110293)
+- Soạn thảo kịch bản kiểm thử toàn diện (End-to-End Test Plan) cho toàn bộ hệ thống dựa trên mô hình đe dọa STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege).
+
+- Tổng kết, đánh giá chi phí sử dụng tài nguyên trên hệ thống Vocareum: ghi nhận tổng mức sử dụng an toàn là 12.1$ trên tổng hạn mức được cấp 50$.
+
+- Xây dựng và trực tiếp thực thi quy trình dọn dẹp tài nguyên bài bản theo 6 giai đoạn nhằm tránh phát sinh chi phí ngầm:
+  - *Giai đoạn 1:* Gỡ bỏ WAF khỏi ALB, xóa các CloudWatch Alarm, SNS Topic và GuardDuty.
+  - *Giai đoạn 2:* Xóa Application Load Balancer (`Lab-ALB-Public`) và Target Group.
+  - *Giai đoạn 3:* Hủy máy ảo EC2 Web Server (tự động xóa kèm EBS Volume) và ngắt kết nối database.
+  - *Giai đoạn 4:* Xóa Amazon RDS MySQL Database (bỏ chọn snapshot và automated backups).
+  - *Giai đoạn 5:* Xóa toàn bộ các dòng Inbound Rules và gỡ bỏ các Security Groups theo thứ tự phụ thuộc.
+  - *Giai đoạn 6:* Xóa DB Subnet Group, làm sạch S3 Bucket và xóa `Lab-VPC`.
+
+- Soạn thảo và hoàn thiện tài liệu Báo cáo Tuần 4 của dự án.
+
+---
+
+#### Sinh viên 2: Nguyễn Công Bình (MSSV: 24110168)
+- Lên kịch bản chi tiết, tiến hành ghi hình thực tế và biên tập video demo toàn bộ dự án: quay lại toàn bộ kiến trúc, giao diện ứng dụng web, các trường hợp kiểm thử tấn công (SQLi, XSS, HTTP Flood / Rate Limit), luồng cảnh báo tự động qua email và giao diện quản trị an ninh trên AWS.
+
+- Xuất bản và tải video demo lên nền tảng YouTube (`https://youtu.be/RNFod-LNGfU`).
+
+- Rà soát, chuẩn hóa cấu trúc mã nguồn dự án; kiểm tra và hợp nhất các tệp cấu hình hạ tầng dạng mã (AWS CloudFormation Templates) thành bộ mã nguồn triển khai tự động hoàn chỉnh, đồng nhất.
+
+- Cập nhật, đồng bộ toàn bộ mã nguồn, tài liệu kiểm thử, kịch bản triển khai và báo cáo lên kho lưu trữ GitHub của nhóm (`https://github.com/CongBinh-designer/Bao-mat-da-lop-cho-ungdung`).
+
+- Tổng kết, đối soát và hoàn thiện bảng nhật ký công việc.
